@@ -1,0 +1,18 @@
+version: '2'
+services:
+  web:
+    build: .
+    command: rackup -p 3000 -o 0.0.0.0 /taskwarrior-web/config.ru
+    ports:
+      - "3000:3000"
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/taskwarrior-web
+      - taskwarrior-taskrc:/root/.taskrc
+      - taskwarrior-task:/root/.task
+volumes:
+  taskwarrior-taskrc:
+    driver: local
+  taskwarrior-task:
+    driver: local

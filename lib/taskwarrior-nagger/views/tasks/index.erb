@@ -1,0 +1,70 @@
+<% can_edit = @can_edit && params[:status].in?(['pending', 'waiting']) %>
+<% priority_map = { nil => 0, 'L' => 1, 'M' => -1, 'H' => -2 } %>
+
+<div id="listing">
+  <% if @tasks.empty? and params[:status] == 'pending' %>
+    <h3>Congrats, you're in the clear!</h3>
+    <p><img src="/img/relax.jpg" alt="Relax" /></p>
+    <p>You've finished all of the things you need to do. Enjoy a nice break.</p>
+  <% else %>
+    <table class="table table-striped table-hover table-sortable">
+      <thead>
+        <tr>
+          <% if params[:status] == 'pending' %><th class="no-sort"></th><% end %>
+          <th>Description</th>
+          <th>Project</th>
+          <th>Due</th>
+          <%= 
+            case params[:status]
+            when 'waiting' then '<th>Hidden until</th>'
+            when 'completed' then '<th>Completed on</th>'
+            when 'deleted' then '<th>Deleted on</th>'
+            end
+          %>
+          <th>Tags</th>
+          <th data-sort-map='{"H": 0, "M": 1, "": 2, "L": 3}'>Priority</th>
+          <% if can_edit %><th class="no-sort"></th><% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @tasks.each do |task| %>
+          <tr<%= %{ class="#{colorize_date(task.due)}"} if task.active? %>>
+            <% if params[:status] == 'pending' %>
+              <td><input type="checkbox" class="complete" data-task-id="<%= task.uuid %>" /></td>
+            <% end %>
+            <td>
+              <%= task.description %>
+              <% unless task.annotations.empty? %>
+                <ul>
+                  <% task.annotations.each do |annotation| %>
+                    <li>
+                      <%= format_date(annotation.entry) %>: <%= auto_link(annotation.description) %>
+                      &nbsp;
+                      <a href="/tasks/<%= task.uuid %>/annotations/<%= ERB::Util.u(annotation.description) %>" data-method="DELETE" data-confirm="Are you sure you want to delete this annotation?"><i class="icon-trash"></i></a>
+                    </li>
+                  <% end %>
+                </ul>
+              <% end %>
+            </td>
+            <td><a href="/projects/<%= linkify(task.project) %>"><%= task.project %></a></td>
+            <td><%= format_date(task.due) unless task.due.nil? %></td>
+            <%= 
+              case params[:status]
+              when 'waiting' then '<td>' + (format_date(task.wait) unless task.wait.nil?) + '</td>'
+              when 'completed', 'deleted' then '<td>' + (format_date(task.end) unless task.end.nil?) + '</td>'
+              end
+            %>
+            <td><%= format_tags(task.tags) unless task.tags.nil? %></td>
+            <td><%= task.priority unless task.priority.nil? %></td>
+            <% if can_edit %><td><%= crud_links(task) %></td><% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>
+
+<% if can_edit %>
+  <div id="annotations-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="annotations-modal-label" aria-hidden="true">
+  </div>
+<% end %>

@@ -1,4 +1,4 @@
-# Nagger
+# Taskwarrior Nagger
 
 A Taskwarrior server container with scheduled jobs and scripts to nag me when tasks need to be completed.
 

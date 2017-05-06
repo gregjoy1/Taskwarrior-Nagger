@@ -1,0 +1,10 @@
+.rvmrc
+coverage
+pkg
+coverage
+Gemfile.lock
+**/*.swp
+**/*.swo
+**/*.swn
+.env
+

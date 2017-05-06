@@ -1,0 +1,17 @@
+<script>
+  $(document).ready(function() {
+    $('input[name="task[description]"]').focus();
+  });
+</script>
+
+<form id="new-task-form" class="form-horizontal" action="/tasks<%= '?destination='+ERB::Util.u(params[:destination]) if params[:destination] %>" method="post">
+
+  <%= erb :'tasks/_form' %>
+
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn btn-primary">Create Task</button>
+    </div>
+  </div>
+
+</form>
