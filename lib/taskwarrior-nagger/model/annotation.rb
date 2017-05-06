@@ -1,4 +1,4 @@
-module TaskwarriorWeb
+module TaskwarriorNagger
   class Annotation
     attr_accessor :task_id, :entry, :description, :_errors
 

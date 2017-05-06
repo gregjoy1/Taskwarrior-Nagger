@@ -1,7 +1,7 @@
 require 'parseconfig'
 require 'versionomy'
 
-module TaskwarriorWeb::Config
+module TaskwarriorNagger::Config
   # A list of date formats, with Taskwarrior's on the left and the Ruby
   # equivalent on the right.
   RUBY_DATEFORMATS = {
@@ -21,27 +21,8 @@ module TaskwarriorWeb::Config
     'S' => '%S',   # two-digit seconds, for example 07 or 47
   }
 
-  # A list of date formats, with Taskwarrior's on the left and the JS
-  # equivalent on the right.
-  JS_DATEFORMATS = {
-    'm' => 'm',     # minimal-digit month, for example 1 or 12
-    'd' => 'd',     # minimal-digit day, for example 1 or 30
-    'y' => 'yy',    # two-digit year, for example 09
-    'D' => 'dd',    # two-digit day, for example 01 or 30
-    'M' => 'mm',    # two-digit month, for example 01 or 12
-    'Y' => 'yyyy',  # four-digit year, for example 2009
-    'a' => '',      # short name of weekday, for example Mon or Wed
-    'A' => '',      # long name of weekday, for example Monday or Wednesday
-    'b' => '',      # short name of month, for example Jan or Aug
-    'B' => '',      # long name of month, for example January or August
-    'V' => '',      # weeknumber, for example 03 or 37
-    'H' => '',      # two-digit hour, for example 03 or 11
-    'N' => '',      # two-digit minutes, for example 05 or 42
-    'S' => '',      # two-digit seconds, for example 07 or 47
-  }
-
   def self.version
-    @version ||= Versionomy.parse(`#{TaskwarriorWeb::Runner::TASK_BIN} _version`.strip)
+    @version ||= Versionomy.parse(`#{TaskwarriorNagger::Runner::TASK_BIN} _version`.strip)
   end
 
   def self.store
@@ -53,14 +34,9 @@ module TaskwarriorWeb::Config
   end
 
   def self.dateformat(format = :ruby)
-    return nil unless self.store['dateformat'] && format.in?([:ruby, :js])
+    return nil unless self.store['dateformat'] && format.in?([:ruby])
 
-    formats = case format
-    when :ruby then RUBY_DATEFORMATS
-    when :js then JS_DATEFORMATS
-    end
-
-    self.store['dateformat'].gsub(/(\w)/, formats)
+    self.store['dateformat'].gsub(/(\w)/, RUBY_DATEFORMATS)
   end
 
   def self.supports?(feature)
@@ -79,7 +55,7 @@ module TaskwarriorWeb::Config
 
   def self.parse_config
     if self.supports? :_show
-      config = `#{TaskwarriorWeb::Runner::TASK_BIN} _show`
+      config = `#{TaskwarriorNagger::Runner::TASK_BIN} _show`
       config.split("\n").inject({}) do |h, line|
         key,value = line.split('=')
         h.merge!({ key => value })

@@ -1,4 +1,4 @@
-module TaskwarriorWeb
+module TaskwarriorNagger
   module Nagger
     class Evening
 
@@ -38,9 +38,9 @@ module TaskwarriorWeb
 
       def get_tasks
         # leverage task warrior filter to find completed tasks today
-        @completed_tasks = ::TaskwarriorWeb::Task.query('end.after:today-day completed')
+        @completed_tasks = ::TaskwarriorNagger::Task.query('end.after:today-day completed')
 
-        @uncompleted_tasks = ::TaskwarriorWeb::Task.query(status: 'pending').select do |task|
+        @uncompleted_tasks = ::TaskwarriorNagger::Task.query(status: 'pending').select do |task|
           next if task.due.nil?
 
           overdue = (task.due.to_time < 0.day.ago)

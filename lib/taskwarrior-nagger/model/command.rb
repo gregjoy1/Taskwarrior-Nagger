@@ -1,6 +1,6 @@
-class TaskwarriorWeb::Command
-  include TaskwarriorWeb::CommandBuilder
-  include TaskwarriorWeb::Runner
+class TaskwarriorNagger::Command
+  include TaskwarriorNagger::CommandBuilder
+  include TaskwarriorNagger::Runner
 
   attr_accessor :command, :id, :params, :built, :command_string
 

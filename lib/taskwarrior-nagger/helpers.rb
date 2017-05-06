@@ -1,6 +1,6 @@
 require 'active_support/core_ext/date/calculations'
 
-module TaskwarriorWeb::App::Helpers
+module TaskwarriorNagger::App::Helpers
   def format_date(timestamp)
     format = TaskwarriorWeb::Config.dateformat || '%-m/%-d/%Y'
     Time.parse(timestamp).localtime.strftime(format)
@@ -56,38 +56,6 @@ module TaskwarriorWeb::App::Helpers
     total.to_i == 0 ? '' : total.to_s
   end
 
-  def progress_bar(tasks)
-    return 0 if tasks.empty?
-    doneness = (tasks.select { |t| t.status == 'completed' }.count.to_f / tasks.count.to_f) * 100
-    string = %(<div class="progress progress-striped">)
-    string << %(<div class="bar" style="width: #{doneness.to_i}%;"></div>&nbsp;#{doneness.to_i}%)
-    string << %(</div>)
-    string
-  end
-
-  def crud_links(task)
-    string = %(<span class="crud-links">)
-    string << %(<a class="annotation-add" href="/tasks/#{task.uuid}/annotations/new"><i class="icon-comment"></i></a>)
-    string << %(&nbsp;|&nbsp;)
-    string << %(<a href="/tasks/#{task.uuid}?destination=#{ERB::Util.u(request.path_info)}"><i class="icon-pencil"></i></a>)
-    string << %(&nbsp;|&nbsp;)
-    string << %(<a href="/tasks/#{task.uuid}?destination=#{ERB::Util.u(request.path_info)}" data-method="DELETE" data-confirm="Are you sure you want to delete this task?"><i class="icon-trash"></i></a>)
-    string << %(</span>)
-    string
-  end
-
-  # Authentication
-  def protected!
-    response['WWW-Authenticate'] = %(Basic realm="Taskwarrior Web") and throw(:halt, [401, "Not authorized\n"]) and return unless authorized?
-  end
-
-  def authorized?
-    @auth ||=  Rack::Auth::Basic::Request.new(request.env)
-    values = [TaskwarriorWeb::Config.property('task-web.user'), TaskwarriorWeb::Config.property('task-web.passwd')]
-    @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == values
-  end
-
-  ##
   # Syncronise the local task database with the server
   def sync
     TaskwarriorWeb::Command.new(:sync, nil, nil).run

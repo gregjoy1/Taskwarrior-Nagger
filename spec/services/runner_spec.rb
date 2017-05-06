@@ -1,10 +1,10 @@
 require File.dirname(__FILE__) + '/../spec_helper'
-require 'taskwarrior-web/services/runner'
+require 'taskwarrior-nagger/services/runner'
 
-describe TaskwarriorWeb::Runner do
+describe TaskwarriorNagger::Runner do
   before do
     TestCommandClass.class_eval do |class_name|
-      include TaskwarriorWeb::Runner
+      include TaskwarriorNagger::Runner
     end
     @object = TestCommandClass.new
   end

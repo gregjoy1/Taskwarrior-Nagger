@@ -1,7 +1,7 @@
-module TaskwarriorWeb::CommandBuilder::V1
+module TaskwarriorNagger::CommandBuilder::V1
 
-  include TaskwarriorWeb::CommandBuilder::Base
-    
+  include TaskwarriorNagger::CommandBuilder::Base
+
   def build
     unless @command_string
       task_command
@@ -11,7 +11,7 @@ module TaskwarriorWeb::CommandBuilder::V1
     @built = "#{self.command_string}#{params}"
   end
 
-  # Overridden from TaskwarriorWeb::CommandBuilder::Base
+  # Overridden from TaskwarriorNagger::CommandBuilder::Base
   #
   # Substitute the task's ID for its UUID.
   def substitute_parts
@@ -20,12 +20,11 @@ module TaskwarriorWeb::CommandBuilder::V1
       @command_string.gsub!(':id', @id.to_s)
       return self
     end
-    raise TaskwarriorWeb::CommandBuilder::MissingTaskIDError
+    raise TaskwarriorNagger::CommandBuilder::MissingTaskIDError
   end
 
   def assign_id_from_uuid
-    @all_tasks ||= TaskwarriorWeb::Task.query('status.not' => [:deleted, :completed])
+    @all_tasks ||= TaskwarriorNagger::Task.query('status.not' => [:deleted, :completed])
     @id = @all_tasks.index { |task| task.uuid == @id } + 1
   end
-
 end

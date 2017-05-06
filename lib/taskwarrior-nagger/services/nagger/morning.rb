@@ -1,4 +1,4 @@
-module TaskwarriorWeb
+module TaskwarriorNagger
   module Nagger
     class Morning
 
@@ -29,7 +29,7 @@ module TaskwarriorWeb
       end
 
       def get_tasks
-        @tasks = ::TaskwarriorWeb::Task.query(status: 'pending').select do |task|
+        @tasks = ::TaskwarriorNagger::Task.query(status: 'pending').select do |task|
           next if task.due.nil?
 
           overdue = (task.due.to_time < 0.day.ago)

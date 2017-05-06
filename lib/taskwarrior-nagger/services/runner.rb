@@ -1,4 +1,4 @@
-module TaskwarriorWeb::Runner
+module TaskwarriorNagger::Runner
   TASK_BIN = 'task rc.xterm.title=no rc.color=off rc.verbose=no rc.confirmation=no'
 
   def run

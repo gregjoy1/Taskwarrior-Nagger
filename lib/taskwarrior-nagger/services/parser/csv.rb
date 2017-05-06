@@ -1,6 +1,6 @@
 require 'csv'
 
-module TaskwarriorWeb::Parser::Csv
+module TaskwarriorNagger::Parser::Csv
   def self.parse(csv)
     rows = []
     CSV.parse(csv, :headers => true, :quote_char => "'", :header_converters => :symbol, :converters => :all) do |row|

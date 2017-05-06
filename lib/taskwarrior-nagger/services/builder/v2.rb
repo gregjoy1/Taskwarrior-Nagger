@@ -1,3 +1,3 @@
-module TaskwarriorWeb::CommandBuilder::V2
-  include TaskwarriorWeb::CommandBuilder::Base
+module TaskwarriorNagger::CommandBuilder::V2
+  include TaskwarriorNagger::CommandBuilder::Base
 end

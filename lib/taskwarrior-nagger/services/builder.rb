@@ -1,4 +1,4 @@
-module TaskwarriorWeb::CommandBuilder
+module TaskwarriorNagger::CommandBuilder
   autoload :Base, 'taskwarrior-web/services/builder/base'
   autoload :V1,   'taskwarrior-web/services/builder/v1'
   autoload :V2,   'taskwarrior-web/services/builder/v2'
@@ -8,13 +8,13 @@ module TaskwarriorWeb::CommandBuilder
 
   def self.included(class_name)
     class_name.class_eval do
-      case TaskwarriorWeb::Config.version.major
+      case TaskwarriorNagger::Config.version.major
       when 2
-        include TaskwarriorWeb::CommandBuilder::V2
+        include TaskwarriorNagger::CommandBuilder::V2
       when 1
-        include TaskwarriorWeb::CommandBuilder::V1
+        include TaskwarriorNagger::CommandBuilder::V1
       else
-        raise TaskwarriorWeb::UnrecognizedTaskVersion
+        raise TaskwarriorNagger::UnrecognizedTaskVersion
       end
     end
   end

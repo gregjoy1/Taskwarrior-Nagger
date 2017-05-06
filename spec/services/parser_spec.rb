@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
-require 'taskwarrior-web/services/parser'
+require 'taskwarrior-nagger/services/parser'
 
-describe TaskwarriorWeb::Parser do
+describe TaskwarriorNagger::Parser do
   describe '.parse' do
     context 'when the task version is <= 1.9.2' do
       it 'should parse output as CSV' do

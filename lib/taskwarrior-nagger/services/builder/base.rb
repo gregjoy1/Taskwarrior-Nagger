@@ -1,18 +1,18 @@
 require 'shellwords'
 
-module TaskwarriorWeb::CommandBuilder::Base
+module TaskwarriorNagger::CommandBuilder::Base
 
   TASK_COMMANDS = {
-    :add => 'add',
-    :update => TaskwarriorWeb::Config.version.major >= 2 ? ':id mod' : nil,
-    :delete => 'rc.confirmation=no :id delete',
-    :query => TaskwarriorWeb::Config.version == '1.9.4' ? '_query' : 'export',
-    :complete => ':id done',
-    :annotate => ':id annotate',
-    :denotate => ':id denotate',
-    :projects => '_projects',
-    :tags => '_tags',
-    :sync => 'sync'
+    add: 'add',
+    update: TaskwarriorNagger::Config.version.major >= 2 ? ':id mod' : nil,
+    delete: 'rc.confirmation=no :id delete',
+    query: TaskwarriorNagger::Config.version == '1.9.4' ? '_query' : 'export',
+    complete: ':id done',
+    annotate: ':id annotate',
+    denotate: ':id denotate',
+    projects: '_projects',
+    tags: '_tags',
+    sync: 'sync'
   }
 
   def build
@@ -29,7 +29,7 @@ module TaskwarriorWeb::CommandBuilder::Base
       @command_string = TASK_COMMANDS[@command.to_sym].clone
       return self
     else
-      raise TaskwarriorWeb::CommandBuilder::InvalidCommandError
+      raise TaskwarriorNagger::CommandBuilder::InvalidCommandError
     end
   end
 
@@ -38,7 +38,7 @@ module TaskwarriorWeb::CommandBuilder::Base
       @command_string.gsub!(':id', "uuid:#{@id.to_s}")
       return self
     end
-    raise TaskwarriorWeb::CommandBuilder::MissingTaskIDError
+    raise TaskwarriorNagger::CommandBuilder::MissingTaskIDError
   end
 
   def parse_params
@@ -46,7 +46,7 @@ module TaskwarriorWeb::CommandBuilder::Base
     string << %( #{@params.delete(:description).shellescape}) if @params.has_key?(:description)
 
     if tags = @params.delete(:tags)
-      tag_indicator = TaskwarriorWeb::Config.property('tag.indicator') || '+'
+      tag_indicator = TaskwarriorNagger::Config.property('tag.indicator') || '+'
       tags.each { |tag| string << %( #{tag_indicator}#{tag.to_s.shellescape}) }
     end
 
