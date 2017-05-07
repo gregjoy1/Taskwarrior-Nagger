@@ -1,14 +1,25 @@
 version: '2'
 services:
-  web:
-    build: .
-    command: /usr/local/bin/server.sh
+  taskd:
+    image: jenserat/taskd
     ports:
       - "53589:53589"
+    volumes:
+      - taskd-data:/var/taskd
+  nagger:
+    build: .
     tty: true
     stdin_open: true
     volumes:
-      - taskddata:/var/taskd
+      - .:/taskwarrior-nagger
+      - taskwarrior-taskrc:/root/.taskrc
+      - taskwarrior-task:/root/.task
+    depends_on:
+      - taskd
 volumes:
-  taskddata:
+  taskd-data:
+    driver: local
+  taskwarrior-taskrc:
+    driver: local
+  taskwarrior-task:
     driver: local

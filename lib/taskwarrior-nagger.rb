@@ -3,20 +3,19 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 require 'rubygems'
 require 'active_support/core_ext'
-require 'taskwarrior-web/version'
 require 'dotenv/load'
 
-module TaskwarriorWeb
-  autoload :App,            'taskwarrior-web/app'
-  autoload :Helpers,        'taskwarrior-web/helpers'
-  autoload :Task,           'taskwarrior-web/model/task'
-  autoload :Annotation,     'taskwarrior-web/model/annotation'
-  autoload :Config,         'taskwarrior-web/model/config'
-  autoload :Command,        'taskwarrior-web/model/command'
-  autoload :CommandBuilder, 'taskwarrior-web/services/builder'
-  autoload :Runner,         'taskwarrior-web/services/runner'
-  autoload :Parser,         'taskwarrior-web/services/parser'
-  autoload :Nagger,         'taskwarrior-web/services/nagger'
+module TaskwarriorNagger
+  autoload :App,            'taskwarrior-nagger/app'
+  autoload :Helpers,        'taskwarrior-nagger/helpers'
+  autoload :Task,           'taskwarrior-nagger/model/task'
+  autoload :Annotation,     'taskwarrior-nagger/model/annotation'
+  autoload :Config,         'taskwarrior-nagger/model/config'
+  autoload :Command,        'taskwarrior-nagger/model/command'
+  autoload :CommandBuilder, 'taskwarrior-nagger/services/builder'
+  autoload :Runner,         'taskwarrior-nagger/services/runner'
+  autoload :Parser,         'taskwarrior-nagger/services/parser'
+  autoload :Nagger,         'taskwarrior-nagger/services/nagger'
 
   class UnrecognizedTaskVersion < Exception; end
 end

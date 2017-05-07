@@ -1,7 +1,7 @@
 module TaskwarriorNagger::CommandBuilder
-  autoload :Base, 'taskwarrior-web/services/builder/base'
-  autoload :V1,   'taskwarrior-web/services/builder/v1'
-  autoload :V2,   'taskwarrior-web/services/builder/v2'
+  autoload :Base, 'taskwarrior-nagger/services/builder/base'
+  autoload :V1,   'taskwarrior-nagger/services/builder/v1'
+  autoload :V2,   'taskwarrior-nagger/services/builder/v2'
 
   class InvalidCommandError < Exception; end
   class MissingTaskIDError < Exception; end

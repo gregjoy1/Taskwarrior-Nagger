@@ -1,7 +1,7 @@
 module TaskwarriorNagger
   module Nagger
-    autoload :Morning, 'taskwarrior-web/services/nagger/morning'
-    autoload :Evening, 'taskwarrior-web/services/nagger/evening'
+    autoload :Morning, 'taskwarrior-nagger/services/nagger/morning'
+    autoload :Evening, 'taskwarrior-nagger/services/nagger/evening'
   end
 end
 

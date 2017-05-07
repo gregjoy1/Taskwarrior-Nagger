@@ -1,5 +1,4 @@
 require 'rspec'
-require 'rspec-html-matchers'
 
 # Simplecov
 require 'simplecov'

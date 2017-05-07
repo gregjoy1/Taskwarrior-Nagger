@@ -1,10 +1,9 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require 'taskwarrior-nagger/version'
 
 Gem::Specification.new do |s|
   s.name        = "taskwarrior-nagger"
-  s.version     = TaskwarriorWeb::VERSION
+  s.version     = 1
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Greg Joy"]
   s.email       = ["gregjoy91@gmail.com"]
